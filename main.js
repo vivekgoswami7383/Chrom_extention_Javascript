@@ -1,3 +1,5 @@
+chrome.idle.setDetectionInterval(15);
+
 const getItem = () => localStorage.getItem('data') ? JSON.parse(localStorage.getItem('data')) : {}
 // Get localstorage data function so we don't need to write code for getItems everytime
 
@@ -58,17 +60,25 @@ button.addEventListener("click", function (e) {          // When user click on s
     }
 })
 
-document.addEventListener('visibilitychange', async function() {
-    console.log(document.visibilityState);
-    if(document.visibilityState === 'hidden'){
-            setTimeout(() => {
-                    if(document.visibilityState === 'hidden'){
-                        // playMusic()
-                        console.log("MUSIC WILL PLAY");
-                    }
-            }, 5000);
-    };
-});
+chrome.idle.onStateChanged.addListener(
+  function (state) {
+    console.log(hasClass('start'));
+    console.log(hasClass('stop'));
+    if(getItem().start){
+      console.log("INNNN");
+      if (state === "idle"){
+        window.interval = setInterval(function() {
+          console.log("1");
+          if(state === "idle"){
+            playMusic()
+          }else{
+            clearInterval(interval)
+          }
+        },1000)
+      }
+    }
+  }
+);
 
 const initials = () => {                                    // We have to make this function because in chrom extention if we click on anywhere on page then it will be reolad the page internally so value was going removed so have put this functionality
     if(!getItem().stopTimer && getItem().start) {     // Same condition as we see above for start timer
