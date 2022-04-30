@@ -70,7 +70,7 @@ document.addEventListener('visibilitychange', async function() {
     };
 });
 
-const init = () => {                                    // We have to make this function because in chrom extention if we click on anywhere on page then it will be reolad the page internally so value was going removed so have put this functionality
+const initials = () => {                                    // We have to make this function because in chrom extention if we click on anywhere on page then it will be reolad the page internally so value was going removed so have put this functionality
     if(!getItem().stopTimer && getItem().start) {     // Same condition as we see above for start timer
         window.firstIntervel = setInterval(function() {
             if(!getItem().start) return    // If it is start then we don't need to display last time
@@ -90,4 +90,4 @@ const init = () => {                                    // We have to make this 
     }
 }
 
-init()
+initials()
