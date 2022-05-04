@@ -1,4 +1,4 @@
-chrome.idle.setDetectionInterval(15);
+chrome.idle.setDetectionInterval(15);   // Default chrom idle time is 15 sec but we can set as we want
 
 const getItem = () => localStorage.getItem('data') ? JSON.parse(localStorage.getItem('data')) : {}
 // Get localstorage data function so we don't need to write code for getItems everytime
@@ -15,7 +15,7 @@ setItem({
 
 const button = document.getElementById("startTimer")
 
-const hasClass = (name) => button.classList.contains(name);
+const hasClass = (name) => button.classList.contains (name);
 const removeClass = (name) => button.classList.remove(name);     // Here we have added some functions for managing class
 const addClass = (name) => button.classList.add(name);
 
@@ -25,14 +25,18 @@ const playMusic = () => {
 }
 
 const getTime = () => [new Date().getMinutes(),new Date().getSeconds(),new Date().getHours()]  // For get latest time
-
+let soundBuzzer = false
 button.addEventListener("click", function (e) {          // When user click on start button
     const {stopTimer} = getItem()                       // Get time from localstorage
     if(hasClass('start')){                             // If class was start then only start button will called
         removeClass('start')                          // When click on start button we Just remove start class and
         addClass('stop')                             // Adding new stop class
+        soundBuzzer = true
         button.innerHTML = "Stop Time"              // Button text will change from start time to stop time after click event
-        playMusic()                                // After clcik we will play music for one time
+        document.getElementById("paragraph").innerHTML = "🎉 Wohoooo, Timer was started"
+        if(soundBuzzer){
+            playMusic()                                // After clcik we will play music for one time
+        }
 
         setItem({stopTimer : false,start:true})  // We are change stopTimer from true to false so timer will called continually
 
@@ -53,28 +57,22 @@ button.addEventListener("click", function (e) {          // When user click on s
     }else if(hasClass('stop')){  // If value of class is stop then it will called stop button either start button
         removeClass('stop')     // After clicking on that we are removing stop class so next time it will called start button
         addClass('start')       // We are adding start class
+        soundBuzzer = false
         button.innerHTML = "Start Time" // Change button name from start time to stop time
+        document.getElementById("paragraph").innerHTML = "Hello, please start the timer"
         setItem({stopTimer : true,start:false})  // If we click on stop button then we have to stop timer so we are change stopTimer value
         clearInterval(window.firstIntervel)  // If we click on stop button then timer must have to stop so clearing that interval
         clearInterval(window.interval)      //  We must hvae to clear this interval also
     }
 })
 
-chrome.idle.onStateChanged.addListener(
+chrome.idle.onStateChanged.addListener( // So Instead of screen sleep we have found another solution which was given by chrom extention
   function (state) {
-    console.log(hasClass('start'));
-    console.log(hasClass('stop'));
-    if(getItem().start){
-      console.log("INNNN");
-      if (state === "idle"){
-        window.interval = setInterval(function() {
-          console.log("1");
-          if(state === "idle"){
-            playMusic()
-          }else{
-            clearInterval(interval)
-          }
-        },1000)
+    if(getItem().start){   // We are Just double cross for play music
+      if (state === "idle"){ // If we not give any input for 15 sec then our pc going to idle mode os we are checking the idle mode
+        window.interval = setInterval(() => {   // If it will found as a idle mode then system will play music at every one second
+              playMusic()
+          }, 1000);
       }
     }
   }
@@ -90,6 +88,7 @@ const initials = () => {                                    // We have to make t
                 const temp = hour + " : " + minute + " : " + sec + " " + " " + amPm;
                 setItem({timeData : temp})
                 document.getElementById("showTimer").innerHTML = getItem().timeData
+                document.getElementById("paragraph").innerHTML = "🎉 Wohoooo, Timer was started"
             }else{
                 const temp = hour + " : " + minute + " : " + sec;
                 document.getElementById("showTimer").innerHTML = temp

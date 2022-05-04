@@ -5,11 +5,29 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Browser duration</title>
+    <style>
+        * {
+            margin: 0%;
+            padding: 0%;
+        }
+    </style>
 </head>
-<body id="body">
-    <button id="startTimer" class="startTimer start" value="start" style="width: 100px;">Start Time</button>
-    <!-- <button id="stopTimer" value="Stop Time">Stop Time</button> -->
-    <p id="showTimer" style="width: 108px; text-align: center;"></p>
+<body id="body" style="height: 120px; width: 130px;">
+    <div id="paragraph" style="height: 45px; margin-top: 7px; margin-left: 5px;">
+        <h5 style="font-size: 12px; font-weight: 500;">Hello, please start the timer</h5>
+    </div>
+    <div style="align-items: center;">
+        <button id="startTimer" class="startTimer start" value="start"
+        style=
+        "width: 100px;
+        height: 25px;
+        /* margin-top: 10px; */
+        margin-left: 12px;
+        background-color: black;
+        color: white;">
+        Start Time</button>
+    </div>
+    <p id="showTimer" style="width: 100px; height: 25px; margin-left: 12px; text-align: center; margin-top: 10px;"></p>
     <audio id="audio" src="./surprise-sound-effect-99300.mp3">
     <script type="text/javascript" src="./main.js"></script>
 </body>

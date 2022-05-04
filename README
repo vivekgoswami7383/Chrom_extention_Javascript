@@ -1,0 +1,5 @@
+1) Manifest.json is a file for handling chrom extention information like what the chrom extention name will be,
+2) We must have provide version of the chrom extention
+3) In the browser_action we have to give file name which will run as a index
+3) Permission: There are some things in chrom extentions that will need for permission like storage and idle permission we hvae passed  so that we can use thier storage and idle.
+If you want to use more features just add that into permission.
